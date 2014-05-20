@@ -100,12 +100,6 @@ namespace Todo
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
-            //Initializing Appacitive .Net SDK
-            Appacitive.Sdk.AppContext.Initialize("{{AppId}}", "{{API Key}}", Appacitive.Sdk.Environment.Sandbox);
-
-            //Map your model object to appacitive type
-            Appacitive.Sdk.AppContext.Types.MapObjectType<User>("user");
-            Appacitive.Sdk.AppContext.Types.MapObjectType<TodoItem>("todo");
         }
 
         // Code to execute when the application is activated (brought to foreground)

@@ -31,13 +31,11 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Shell;
-using Appacitive.Sdk;
 
 namespace Todo
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        private bool _isFirstTime = true;
         #region Constructor
         public MainPage()
         {
@@ -49,27 +47,15 @@ namespace Todo
         #endregion
 
         // Load data for the ViewModel Items
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (_isFirstTime)
-            {
-                _isFirstTime = false;
-                progress.Visibility = System.Windows.Visibility.Visible;
-                if (await User.IsLoggedIn())
-                {
-                    gTodoList.Visibility = System.Windows.Visibility.Visible;
-                    ShowList();
-                    return;
-                }
-                gSingIn.Visibility = System.Windows.Visibility.Visible;
-            }
             //hide progress bar
             progress.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         #region Event Handlers
         //user is signing in
-        private async void btnSignIn_Click(object sender, RoutedEventArgs e)
+        private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
             //disable sign in button
             btnSignIn.IsEnabled = false;
@@ -77,7 +63,7 @@ namespace Todo
 
             //Logic to Authenticate User will go here
             //Once user is authenticated, show todo list
-            var result = await User.Authenticate(txtEmail.Text, txtPassword.Password);
+            var result = User.Authenticate(txtEmail.Text, txtPassword.Password);
             if (string.IsNullOrEmpty(result) == false)
             {
                 MessageBox.Show("Oops please check your email address and password", "Sign in Failed", MessageBoxButton.OK);
@@ -93,7 +79,7 @@ namespace Todo
         }
 
         //User is signing up
-        private async void btnSignUp_Click(object sender, RoutedEventArgs e)
+        private void btnSignUp_Click(object sender, RoutedEventArgs e)
         {
             //disable signup button
             btnSignUp.IsEnabled = false;
@@ -107,7 +93,7 @@ namespace Todo
 
             //save user
             var user = new User(txtREmail.Text, txtRPassword.Password, split[0], lastName);
-            if (await user.Save() == false)
+            if (user.Save() == false)
             {
                 MessageBox.Show("Oops some thing went wrong, check your network connection.", "Sign up failed", MessageBoxButton.OK);
             }
@@ -141,14 +127,14 @@ namespace Todo
 
         #region Event Handlers
         //check box clicked
-        private async void checkBox_Click(object sender, RoutedEventArgs e)
+        private void checkBox_Click(object sender, RoutedEventArgs e)
         {
             progress.Visibility = System.Windows.Visibility.Visible;
             var selectedItem = ((System.Windows.Controls.Primitives.ToggleButton)(sender));
-            var selectedListItem = App.ViewModel.Items.Where(i => i.Id == selectedItem.CommandParameter.ToString()).FirstOrDefault();
-            if (selectedListItem == null) return;
-            selectedListItem.IsDone = selectedItem.IsChecked == true;
-            if (await selectedListItem.Save() == false)
+            var selectedTodoItem = App.ViewModel.Items.Where(i => i.Id == selectedItem.CommandParameter.ToString()).FirstOrDefault();
+            if (selectedTodoItem == null) return;
+            selectedTodoItem.IsDone = selectedItem.IsChecked == true;
+            if (selectedTodoItem.Save() == false)
                 MessageBox.Show("Failed to save the state of item.", "Operation failed", MessageBoxButton.OK);
             progress.Visibility = System.Windows.Visibility.Collapsed;
         }
@@ -173,7 +159,7 @@ namespace Todo
         }
 
         //save button clicked
-        private async void appBarSave_Click(object sender, EventArgs e)
+        private void appBarSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtListItemName.Text) == false)
             {
@@ -182,8 +168,8 @@ namespace Todo
                 try
                 {
                     //save the list item
-                    var todoItem = new TodoItem { Name = txtListItemName.Text.Trim() };
-                    await todoItem.Save();
+                    var todoItem = new TodoItem { Id = Guid.NewGuid().ToString(), Name = txtListItemName.Text.Trim(), CreatedDate = DateTime.Now };
+                    todoItem.Save();
 
                     //clear the text field
                     txtListItemName.Text = string.Empty;
@@ -210,7 +196,7 @@ namespace Todo
         }
 
         //context menu item clicked
-        private async void menuItem_Click(object sender, RoutedEventArgs e)
+        private void menuItem_Click(object sender, RoutedEventArgs e)
         {
             progress.Visibility = System.Windows.Visibility.Visible;
 
@@ -219,7 +205,7 @@ namespace Todo
             if (todoItem != null)
             {
                 //delete the list item
-                if (await todoItem.Delete() == false)
+                if (todoItem.Delete() == false)
                     MessageBox.Show("Failed to delete the list item.", "Operation failed", MessageBoxButton.OK);
                 else
                     App.ViewModel.Items.Remove(todoItem);
@@ -245,19 +231,12 @@ namespace Todo
             NavigationService.GoBack();
         }
 
-        //delete all clicked from the menu
-        private void menuRefresh_Click(object sender, EventArgs e)
-        {
-            App.ViewModel.LoadData();
-        }        
-
         //log out user
-        private async void menuLogout_Click(object sender, EventArgs e)
+        private void menuLogout_Click(object sender, EventArgs e)
         {
             try
             {
                 //log out user
-                await AppContext.LogoutAsync();
             }
             catch { }
             gAddList.Visibility = System.Windows.Visibility.Collapsed;

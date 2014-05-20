@@ -33,14 +33,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Appacitive.Sdk;
 
 
 namespace Todo
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+
         public MainViewModel()
         {
             this.Items = new ObservableCollection<TodoItem>();
@@ -75,32 +74,26 @@ namespace Todo
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
-        public async Task LoadData()
+        public void LoadData()
         {
-            try
-            {
-                this.IsDataLoaded = false;
-                //clear old entries
-                this.Items.Clear();
-                this.IsDataLoaded = false;
+            //clear old entries
+            this.Items.Clear();
+            this.IsDataLoaded = false;
 
-                ///get connected todolist for current user
-                var result = await AppContext.UserContext.LoggedInUser.GetConnectedObjectsAsync("owner",
-                                                                            orderBy: "__utcdatecreated",
-                                                                            sortOrder: Appacitive.Sdk.SortOrder.Ascending);
-                //iterate over result object and add todolist item to the list 
-                while (true)
-                {
-                    result.ForEach(r => this.Items.Add(r as TodoItem));
-                    //check if all pages are retrieved
-                    if (result.IsLastPage) break;
-                    //fetch next page
-                    result = await result.NextPageAsync();
-                }
+            //dummy data for demo purpose,
+            //replace this code with the code which makes call to Appacitive platform
+            this.Items.Add(new TodoItem { Id = "1", Name = "Runtime list one", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "2", Name = "Runtime list two", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "3", Name = "Runtime list three", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "4", Name = "Runtime list four", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "5", Name = "Runtime list five", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "6", Name = "Runtime list six", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "7", Name = "Runtime list seven", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "8", Name = "Runtime list eight", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "9", Name = "Runtime list nine", CreatedDate = DateTime.Now });
+            this.Items.Add(new TodoItem { Id = "10", Name = "Runtime list ten", CreatedDate = DateTime.Now });
 
-                this.IsDataLoaded = true;
-            }
-            catch { }
+            this.IsDataLoaded = true;
         }
 
         public void Add(TodoItem todoItem)

@@ -17,25 +17,21 @@
 //  limitations under the License.
 //
 
-using Appacitive.Sdk;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Todo
 {
-    public class User : Appacitive.Sdk.APUser
+    public class User
     {
-        //special constructors called by SDK
-        public User() : base() { }
-
-        public User(Appacitive.Sdk.APObject existing)
-            : base(existing)
-        { }
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Password { get; set; }
 
         public User(string email, string password, string firstName, string lastName)
         {
@@ -46,19 +42,15 @@ namespace Todo
             this.LastName = lastName;
         }
 
-        public async static Task<string> Authenticate(string email, string password)
+        public static string Authenticate(string email, string password)
         {
             var faileMessage = "Authentication failed";
             try
             {
-                //authenticate user on Appacitive
-                var credentials = new UsernamePasswordCredentials(email, password)
-                {
-                    TimeoutInSeconds = int.MaxValue,
-                    MaxAttempts = int.MaxValue
-                };
-
-                await Appacitive.Sdk.AppContext.LoginAsync(credentials);
+                //Code to authenticate user on Appacitive will go here
+                //For now get the user from store and check the credentials
+                //remove this hard coded user
+                var user = new User(email, password, "test user", email);
 
                 return null;
             }
@@ -66,32 +58,15 @@ namespace Todo
             return faileMessage;
         }
 
-        public static async Task<bool> IsLoggedIn()
+        public bool Save()
         {
-            try
-            {
-                var user = await Appacitive.Sdk.APUsers.GetLoggedInUserAsync();
-                if (user == null) return false;
-                return true;
-            }
-            catch (AppacitiveApiException) { return false; }
-        }
-
-        public async Task<bool> Save()
-        {
-            try
-            {
-                //Save user in the backend
-                await this.SaveAsync();
-                return true;
-            }
-            catch { return false; }
+            //Save user in the backend
+            return true;
         }
 
         public bool Logout()
         {
-            //Logout user
-            Appacitive.Sdk.AppContext.LogoutAsync();
+            //Invalidate user token in Appacitive API
             return true;
         }
     }

@@ -17,29 +17,44 @@
 //  limitations under the License.
 //
 
-using Appacitive.Sdk;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Todo
 {
-    public class TodoItem : Appacitive.Sdk.APObject
+    public class TodoItem : INotifyPropertyChanged
     {
         public TodoItem()
-            : base("todo")
         {
 
         }
 
-        //special constructor called by SDK
-        public TodoItem(Appacitive.Sdk.APObject existing)
-            : base(existing)
-        { }
+        private string _id;
+        /// <summary>
+        /// Sample ViewModel property; this property is used to identify the object.
+        /// </summary>
+        /// <returns></returns>
+        public string Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (value != _id)
+                {
+                    _id = value;
+                    NotifyPropertyChanged("Id");
+                }
+            }
+        }
 
+        private string _name;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
@@ -48,14 +63,19 @@ namespace Todo
         {
             get
             {
-                return this.Get<string>("title");
+                return _name;
             }
             set
             {
-                this.Set<string>("title", value);
+                if (value != _name)
+                {
+                    _name = value;
+                    NotifyPropertyChanged("Name");
+                }
             }
         }
 
+        private bool _isDone;
         /// <summary>
         /// Sample ViewModel property; this property is used in the view to display its value using a Binding.
         /// </summary>
@@ -64,52 +84,40 @@ namespace Todo
         {
             get
             {
-                return this.Get<bool>("completed");
+                return _isDone;
             }
             set
             {
-                this.Set<bool>("completed", value);
+                if (value != _isDone)
+                {
+                    _isDone = value;
+                    NotifyPropertyChanged("IsDone");
+                }
             }
         }
 
-        public async Task<bool> Save()
+        public bool Save()
         {
-            try
-            {
-                //If Id is empty, it means to create the todo item
-                //else update
-                if (string.IsNullOrEmpty(this.Id))
-                {
-                    //as we need to store this item in context of todolist
-                    //we will create a connection between todolist and the todoitem
-                    //when connection is saved, todoitem is automatically created
-                    await Appacitive.Sdk.APConnection
-                                    .New("owner")
-                                    .FromExistingObject("user", AppContext.UserContext.LoggedInUser.Id)
-                                    .ToNewObject("todo", this)
-                                    .SaveAsync();
-                }
-                else
-                {
-                    //update the state
-                    await this.SaveAsync();
-                }
-                return true;
-            }
-            catch { return false; }
+            //commit the changes
+            return true;
         }
 
-        public async Task<bool> Delete()
+        public bool Delete()
         {
             //delete list item from backend
-            try
-            {
-                await Appacitive.Sdk.APObjects.DeleteAsync(this.Type, this.Id, true);
-                return true;
-            }
-            catch { return false; }
+            return true;
         }
 
-        public DateTime CreatedDate { get { return this.CreatedAt; } }
+        public DateTime CreatedDate { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (null != handler)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }
