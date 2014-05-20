@@ -80,9 +80,9 @@ namespace Todo
                 //else update
                 if (string.IsNullOrEmpty(this.Id))
                 {
-                    //as we need to store this item in context of todolist
-                    //we will create a connection between todolist and the todoitem
-                    //when connection is saved, todoitem is automatically created
+                    //as we need to store this item in context of user
+                    //we will create a connection between todo item and the user
+                    //when connection is saved, todo item is automatically created
                     await Appacitive.Sdk.APConnection
                                     .New("owner")
                                     .FromExistingObject("user", AppContext.UserContext.LoggedInUser.Id)

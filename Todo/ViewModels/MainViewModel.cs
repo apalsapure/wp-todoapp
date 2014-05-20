@@ -84,7 +84,7 @@ namespace Todo
                 this.Items.Clear();
                 this.IsDataLoaded = false;
 
-                ///get connected todolist for current user
+                ///get connected todo items for current user
                 var result = await AppContext.UserContext.LoggedInUser.GetConnectedObjectsAsync("owner",
                                                                             orderBy: "__utcdatecreated",
                                                                             sortOrder: Appacitive.Sdk.SortOrder.Ascending);
