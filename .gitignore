@@ -1,0 +1,44 @@
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+Bin
+bin
+obj
+sql
+1. Library/Gossamer/*.config
+1. Library/Gossamer/*.manifest
+
+#Symbols
+
+# mstest test results
+TestResults
+
+# Mono specific files
+# ---------------------
+# user preferences for mono
+*.userprefs
+
+# Parser Information Database file - just an optimization by mono
+*.pidb
+
+# Visual Studio specific and Resharper
+_resharper*
+*.resharper
+*.suo
+*.user
+.*.swp
+*.scc 
+*.vssscc 
+*.vspscc 
+*.o 
+*.lo 
+*.la 
+*.al 
+*.libs 
+*.so 
+*.so.[0-9]*
+*.dbmdl
+*.dbproj.schemaview
+
+#Mac specific
+.DS_Store
+*.DS_Store
+

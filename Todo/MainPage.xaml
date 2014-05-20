@@ -1,0 +1,152 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Todo.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768" 
+    d:DataContext="{d:DesignData SampleData/MainViewModelSampleData.xaml}"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="False">
+
+    <!--Data context is set to sample data above and LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ProgressBar x:Name="progress" VerticalAlignment="Top" Margin="0 10 0 0" Visibility="{Binding IsDataLoaded, Converter={StaticResource ProgressBarVisibilityConverter}}" IsIndeterminate="True" Grid.Row="1" />
+        <Grid x:Name="gSingIn" Grid.Row="1" Margin="12,20,0,28" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" >
+                <TextBlock Text="sign in" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1"  Margin="0,32,0,0">
+                <TextBlock Text="Email" Margin="10,0,0,-6" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBox x:Name="txtEmail" InputScope="EmailNameOrAddress"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2"  Margin="0,2,0,0">
+                <TextBlock Text="Password" Margin="10,0,0,-6" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <PasswordBox  x:Name="txtPassword" />
+            </StackPanel>
+            <StackPanel Grid.Row="3"  Margin="0,15,0,0" HorizontalAlignment="Left">
+                <Button x:Name="btnSignIn" Content="Sign In" Width="180" Click="btnSignIn_Click"></Button>
+            </StackPanel>
+            <StackPanel Grid.Row="4"  Margin="0,35,0,0" VerticalAlignment="Bottom">
+                <TextBlock Text="Don't have an account?" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Grid.Row="4"  Margin="0,35,0,0" VerticalAlignment="Bottom">
+                <HyperlinkButton x:Name="lnkSignUp" Click="lnkSignUp_Click" Margin="214,0,0,0" Content="Sign Up" HorizontalAlignment="Left">
+                    <HyperlinkButton.Foreground>
+                        <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+                    </HyperlinkButton.Foreground>
+                </HyperlinkButton>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="gSingUp" Grid.Row="1" Margin="12,20,0,28" Visibility="Collapsed" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" >
+                <TextBlock Text="sign up" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1"  Margin="0,32,0,0">
+                <TextBlock Text="Name" Margin="10,0,0,-6" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBox x:Name="txtRName" />
+            </StackPanel>
+            <StackPanel Grid.Row="2"  Margin="0,2,0,0">
+                <TextBlock Text="Email" Margin="10,0,0,-6" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBox x:Name="txtREmail" InputScope="EmailNameOrAddress"/>
+            </StackPanel>
+            <StackPanel Grid.Row="3"  Margin="0,2,0,0">
+                <TextBlock Text="Password" Margin="10,0,0,-6" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <PasswordBox x:Name="txtRPassword" />
+            </StackPanel>
+            <StackPanel Grid.Row="4"  Margin="0,2,0,0">
+                <CheckBox x:Name="chkAge" Content="I'm above 18" FontSize="20" />
+            </StackPanel>
+            <StackPanel Grid.Row="5"  Margin="0,15,0,0" HorizontalAlignment="Left">
+                <Button x:Name="btnSignUp" Content="Sign Up" Width="180" Click="btnSignUp_Click"></Button>
+            </StackPanel>
+            <StackPanel Grid.Row="6"  Margin="0,35,0,0" VerticalAlignment="Bottom">
+                <TextBlock Text="Already have an account?" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Left"/>
+            </StackPanel>
+            <StackPanel Grid.Row="6"  Margin="0,35,0,0" VerticalAlignment="Bottom">
+                <HyperlinkButton x:Name="lnkSignIn" Click="lnkSignIn_Click" Margin="235,0,0,0" Content="Sign In" HorizontalAlignment="Left">
+                    <HyperlinkButton.Foreground>
+                        <SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+                    </HyperlinkButton.Foreground>
+                </HyperlinkButton>
+            </StackPanel>
+        </Grid>
+        <!--TitlePanel contains the name of the application and page title-->
+        <Grid x:Name="gTodoList" Grid.Row="1" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="12,17,0,10">
+                <TextBlock Text="TO-DO" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBlock Text="lists" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
+
+            <!--ContentPanel contains LongListSelector and LongListSelector ItemTemplate. Place additional content here-->
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+                <ListBox x:Name="MainLongListSelector" Margin="0,0,-12,0" ItemsSource="{Binding Items}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,0,0,-15">
+                                <toolkit:ContextMenuService.ContextMenu>
+                                    <toolkit:ContextMenu>
+                                        <toolkit:MenuItem Header="delete" Click="menuItem_Click" CommandParameter="{Binding Id}"/>
+                                    </toolkit:ContextMenu>
+                                </toolkit:ContextMenuService.ContextMenu>
+                                <CheckBox Click="checkBox_Click" Content="{Binding Name}" CommandParameter="{Binding Id}" IsChecked="{Binding IsDone}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+        <Grid x:Name="gAddList" Grid.Row="1"  Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="10,17,0,28">
+                <TextBlock Text="ITEM DETAILS" Style="{StaticResource PhoneTextNormalStyle}"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1"  Margin="12,0,0,0">
+                <TextBlock Text="Name" Margin="12,0,0,-6" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBox x:Name="txtListItemName" InputScope="Chat"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="False" IsMenuEnabled="True">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Click="menuRefresh_Click" Text="refresh" />
+                <shell:ApplicationBarMenuItem Click="menuDeleteAll_Click" Text="delete all" />
+                <shell:ApplicationBarMenuItem Click="menuLogout_Click" Text="logout" />
+            </shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton Text="add" IsEnabled="True" IconUri="/Assets/AppBar/add.png" Click="appBarAdd_Click"></shell:ApplicationBarIconButton>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+</phone:PhoneApplicationPage>

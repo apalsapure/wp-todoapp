@@ -1,0 +1,13 @@
+﻿<local:MainViewModel 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Todo">
+    
+    <local:MainViewModel.Items>
+        <local:TodoItem Id="1" Name="design list one" />
+        <local:TodoItem Id="2" Name="design list two" />
+        <local:TodoItem Id="3" Name="design list three" />
+        <local:TodoItem Id="4" Name="design list four" />
+    </local:MainViewModel.Items>
+    
+</local:MainViewModel>
