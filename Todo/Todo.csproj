@@ -133,7 +133,6 @@
     <Content Include="Assets\Tiles\FlipCycleTileSmall.png" />
     <Content Include="Assets\Tiles\IconicTileMediumLarge.png" />
     <Content Include="Assets\Tiles\IconicTileSmall.png" />
-    <Content Include="README_FIRST.txt" />
     <Content Include="SplashScreenImage.jpg" />
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
