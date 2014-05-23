@@ -30,7 +30,13 @@ private void Application_Launching(object sender, LaunchingEventArgs e)
 }
 ```
 
-To get these details, open your app on [Appacitive Portal](https://portal.appacitive.com). API key for the app is available on your app's home page at the bottom. To get the App Id, open application details view by clicking on edit icon near your app's name.
+To get these details, open your app on [Appacitive Portal](https://portal.appacitive.com). On the app's dashboard you will find both API Key and Application Id as shown in following image.
+
+!["Getting your apikey"](http://cdn.appacitive.com/devcenter/root/dashboard.png)
+
+**Important Note:**
+
+For this sample to work properly use ***Master API Key***. Do not use ***Client API Key***, Client API keys get evaluated against ACL, and if you don't have any ACL defined, then all API calls will fail with Access deined error.
 
 Once your done, run the application.
 
