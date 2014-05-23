@@ -34,7 +34,7 @@ To get these details, open your app on [Appacitive Portal](https://portal.appaci
 
 !["Getting your apikey"](http://cdn.appacitive.com/devcenter/root/dashboard.png)
 
-**Important Note:**
+#### Important Note:
 
 For this sample to work properly use ***Master API Key***. Do not use ***Client API Key***, Client API keys get evaluated against ACL, and if you don't have any ACL defined, then all API calls will fail with Access deined error.
 
