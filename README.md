@@ -1,5 +1,6 @@
 # Windows Phone Todo App
 Master commit one
+Master commit two
 
 A simple todo app backed by [Appacitive Cloud Platform](http://www.appacitive.com) and uses [Appacitive .Net SDK](http://devcenter.appacitive.com/windows/) for managing application data. 
 
