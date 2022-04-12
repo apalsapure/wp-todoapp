@@ -6,6 +6,8 @@ Master commit three
 Version-2 one
 Version-2 two
 
+feature-v-2 one
+
 A simple todo app backed by [Appacitive Cloud Platform](http://www.appacitive.com) and uses [Appacitive .Net SDK](http://devcenter.appacitive.com/windows/) for managing application data. 
 
 This app demonstrates ***Data Store*** and ***Users*** features provided by the Appacitive .Net SDK.
